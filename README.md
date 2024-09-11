@@ -12,7 +12,7 @@ npm  install  relational-schema-normalization
 
 The  FunctionalDependency  class  represents  a  functional  dependency  in  a  relational  database.
 
-Example:
+#### Example:
 ```typescript
 import { FunctionalDependency } from 'your-package-name';
 

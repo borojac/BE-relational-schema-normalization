@@ -14,7 +14,7 @@ The  FunctionalDependency  class  represents  a  functional  dependency  in  a  
 
 #### Example:
 ```typescript
-import { FunctionalDependency } from 'your-package-name';
+import { FunctionalDependency } from 'relational-schema-normalization';
 
 const determinant = new Set(['A']);
 const dependent = new Set(['B', 'C']);
@@ -37,7 +37,7 @@ The `FunctionalDependencySet` class is a collection of `FunctionalDependency` ob
 #### Example
 
 ```typescript
-import { FunctionalDependency, FunctionalDependencySet } from 'your-package-name';
+import { FunctionalDependency, FunctionalDependencySet } from 'relational-schema-normalization';
 
 const fd1 = new FunctionalDependency(new Set(['A']), new Set(['B']));
 const fd2 = new FunctionalDependency(new Set(['B']), new Set(['C']));
@@ -61,7 +61,7 @@ The `RelationalScheme` class represents a relational schema, which is a set of a
 #### Example
 
 ```typescript
-import { RelationalScheme } from 'your-package-name';
+import { RelationalScheme } from 'relational-schema-normalization';
 
 const relationalScheme = new RelationalScheme(['A', 'B', 'C']);
 console.log(relationalScheme.attributes);  // Set { 'A', 'B', 'C' }` 
@@ -134,7 +134,7 @@ The `Utils` class provides various utility methods for computing closures, decom
 ### Example: BCNF Decomposition
 
 ```typescript
-import { Utils, RelationalScheme, FunctionalDependencySet } from 'your-package-name';
+import { Utils, RelationalScheme, FunctionalDependencySet } from 'relational-schema-normalization';
 
 const relationalScheme = new RelationalScheme(['A', 'B', 'C', 'D']);
 const fds = new FunctionalDependencySet([

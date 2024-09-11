@@ -1,6 +1,6 @@
 {
   "name": "relational-schema-normalization",
-  "version": "1.8.1",
+  "version": "2.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

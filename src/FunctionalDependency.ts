@@ -1,13 +1,21 @@
 export class FunctionalDependency {
-    determinant: Set<string>
-    dependent: Set<string>
+    private _determinant: Set<string>
+    private _dependent: Set<string>
 
     constructor(determinant: Set<string>, dependent: Set<string>) {
         if (determinant.size === 0 || dependent.size === 0) {
             throw new Error('determinant or dependent cannot be empty sets')
         }
-        this.determinant = new Set<string>(determinant);
-        this.dependent = new Set<string>(dependent);
+        this._determinant = new Set<string>(determinant);
+        this._dependent = new Set<string>(dependent);
+    }
+
+    get determinant(): Set<string> {
+        return this._determinant;
+    }
+
+    get dependent(): Set<string> {
+        return this._dependent;
     }
 
     equals(fd: FunctionalDependency): boolean {

@@ -17,7 +17,7 @@ describe('BCNF decomposition', () => {
         ]
 
         const res = Utils.bcnfDecomposition(relationalScheme, fds);
-        console.log(res)
+
         expect(res.every(r => expectedRelationalSchemes.some(r2 => r.equals(r2)))).toBeTruthy();
     })
 
@@ -35,12 +35,12 @@ describe('BCNF decomposition', () => {
         ]
 
         const res = Utils.bcnfDecomposition(relationalScheme, fds);
-
+        
         expect(res.every(r => expectedRelationalSchemes.some(r2 => r.equals(r2)))).toBeTruthy();
     })
 
-    it.only('should compute correct BCNF decomposition (3)', () => {
-        const relationalScheme = new RelationalScheme(['A0', 'A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8']);
+    it('should compute correct BCNF decomposition (3)', () => {
+        const relationalScheme = new RelationalScheme(['A0', 'A1', 'A2', 'A3', 'A4', 'A5']);
         const fds = new FunctionalDependencySet([
             new FunctionalDependency(new Set(['A0', 'A4']), new Set(['A2', 'A3'])),
             new FunctionalDependency(new Set(['A0', 'A2', 'A3']), new Set(['A1', 'A4'])),

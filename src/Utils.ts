@@ -187,12 +187,12 @@ export class Utils {
         
         const D = new Array<RelationalScheme>(relationalSchemeParam);
 
-        const fdsClosure: FunctionalDependencySet = new FunctionalDependencySet(Utils.closureOfSetOfFunctionalDependenciesUsingAttributesClosure(relationalSchemeParam, fdsParam));
+        const fdsClosure: FunctionalDependencySet = new FunctionalDependencySet(Utils.closureOfSetOfFunctionalDependenciesUsingAttributesClosure(relationalSchemeParam, fdsParam).fdArray.reverse());
 
         for (let i = 0; i < D.length; i ++) {
-            const fds = Utils.extractFunctionalDependenciesForScheme(D[i], fdsClosure);
+            const fds = Utils.extractFunctionalDependenciesForScheme(D[i], fdsParam);
             for (let fd of fds.fdArray) {
-                if (!Utils.isFunctionalDependencyBNCF(D[i], fd, fds)) {
+                if (!Utils.isFunctionalDependencyBNCF(D[i], fd, fdsClosure)) {
                     D.splice(i, 1, new RelationalScheme([...fd.determinant, ...fd.dependent]), new RelationalScheme([...fd.determinant, ...Utils.differenceA_B(D[i].attributes, fd.dependent)]));
                     i --;
                     break;
@@ -242,6 +242,10 @@ export class Utils {
         return fds;
     }
 
+    public static areSetOfAttributesEqual(s1: Set<string>, s2: Set<string>) {
+        return s1.size === s2.size && [...s1].every((el) => s2.has(el));
+    }
+
     public static decomposeFunctionalDependencies(fds: FunctionalDependencySet): FunctionalDependencySet {
         let newFds: FunctionalDependencySet = new FunctionalDependencySet();
         for (let fd of fds.fdArray) {
@@ -254,15 +258,11 @@ export class Utils {
         return newFds;
     }
 
-    public static areSetOfAttributesEqual(s1: Set<string>, s2: Set<string>) {
-        return s1.size === s2.size && [...s1].every((el) => s2.has(el));
-    }
-
     public static areSetsOfAttributesEqual(s1: Set<string>[], s2: Set<string>[]) {
         return s1.length === s2.length && s1.every(setOfAttrs1 => s2.some(setOfAttrs2 => Utils.areSetOfAttributesEqual(setOfAttrs1, setOfAttrs2)));
     }
 
-    public static isSubsetOf(a: Set<string>, b: Set<string>, isStrictSubset: boolean = false) {
+    private static isSubsetOf(a: Set<string>, b: Set<string>, isStrictSubset: boolean = false) {
         const isSubset = [...a].every(el => b.has(el));
 
         if (!isSubset || (isStrictSubset && a.size === b.size)) return false;
@@ -270,15 +270,15 @@ export class Utils {
         return true;
     }
 
-    public static union(a: Set<string>, b: Set<string>) {
+    private static union(a: Set<string>, b: Set<string>) {
         return new Set([...a, ...b]);
     }
 
-    public static differenceA_B(a: Set<string>, b: Set<string>) {
+    private static differenceA_B(a: Set<string>, b: Set<string>) {
         return new Set([...a].filter(el => !b.has(el)));
     }
 
-    public static generateSubsets(set: Set<string>): Set<string>[] {
+    private static generateSubsets(set: Set<string>): Set<string>[] {
         const subsets: Set<string>[] = [];
 
         for (const element of set) {
@@ -295,15 +295,7 @@ export class Utils {
         return subsets;
     }
 
-    public static extractRelationalSchemaAttributes(fds: FunctionalDependencySet): Set<string> {
-        let res: Set<string> = new Set<string>();
-        for (let fd of fds.fdArray) {
-            res = new Set([...res, ...fd.determinant, ...fd.dependent]);
-        }
-        return res;
-    }
-
-    public static extractDifferentDeterminants(fdsParam: FunctionalDependencySet): Set<string>[] {
+    private static extractDifferentDeterminants(fdsParam: FunctionalDependencySet): Set<string>[] {
         const result: Set<string>[] = [];
         for (let fd of fdsParam.fdArray) {
             if (result.every(s => !Utils.areSetOfAttributesEqual(s, fd.determinant))) {

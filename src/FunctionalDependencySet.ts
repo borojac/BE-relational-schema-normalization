@@ -68,5 +68,4 @@ export class FunctionalDependencySet {
     size() {
         return this._fdArray.length;
     }
-
 }

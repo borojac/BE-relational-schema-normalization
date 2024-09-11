@@ -115,19 +115,19 @@ The `Utils` class provides various utility methods for computing closures, decom
 
 12.  **`removeExtraneousAttributes(fdParam: FunctionalDependency, fdsParam: FunctionalDependencySet): FunctionalDependencySet`**
 
--   **Description**: Removes extraneous attributes from a functional dependency.
+     -   **Description**: Removes extraneous attributes from a functional dependency.
 
 13.  **`decomposeFunctionalDependencies(fds: FunctionalDependencySet): FunctionalDependencySet`**
 
--   **Description**: Decomposes each functional dependency that has multiple attributes on the right-hand side into single-attribute dependencies.
+     -   **Description**: Decomposes each functional dependency that has multiple attributes on the right-hand side into single-attribute dependencies.
 
 14.  **`areSetOfAttributesEqual(s1: Set<string>, s2: Set<string>): boolean`**
 
--   **Description**: Compares two sets of attributes for equality.
+     -   **Description**: Compares two sets of attributes for equality.
 
 15.  **`areSetsOfAttributesEqual(s1: Set<string>[], s2: Set<string>[]): boolean`**
 
--   **Description**: Compares two array of sets of attributes for equality.
+     -   **Description**: Compares two array of sets of attributes for equality.
 
 ----------
 

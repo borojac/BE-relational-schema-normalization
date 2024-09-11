@@ -1,11 +1,11 @@
 import { FunctionalDependency } from "../src/FunctionalDependency"
 import { FunctionalDependencySet } from "../src/FunctionalDependencySet"
-import { RelationalScheme } from "../src/RelationalScheme";
+import { RelationalSchema } from "../src/RelationalSchema";
 import { Utils } from "../src/Utils"
 
 describe('Closure of set of functional dependencies', () => {
     it('should calculate correct set of functional dependencies (1)', () => {
-        const relationalScheme = new RelationalScheme(['JMB', 'ImeStudenta', 'BrojIndeksa', 'StudijskiProgram', 'GodinaStudija']);
+        const relationalSchema = new RelationalSchema(['JMB', 'ImeStudenta', 'BrojIndeksa', 'StudijskiProgram', 'GodinaStudija']);
         const fds = new FunctionalDependencySet([
             new FunctionalDependency(new Set(['JMB']), new Set(['ImeStudenta'])),
             new FunctionalDependency(new Set(['JMB', 'BrojIndeksa']), new Set(['StudijskiProgram'])),
@@ -17,11 +17,11 @@ describe('Closure of set of functional dependencies', () => {
             new FunctionalDependency(new Set(['BrojIndeksa','StudijskiProgram']), new Set(['GodinaStudija'])),
         ])
 
-        expect(Utils.closureOfSetOfFunctionalDependencies(relationalScheme, fds).equals(Utils.closureOfSetOfFunctionalDependenciesUsingAttributesClosure(relationalScheme, fds))).toBeTruthy();
+        expect(Utils.closureOfSetOfFunctionalDependencies(relationalSchema, fds).equals(Utils.closureOfSetOfFunctionalDependenciesUsingAttributesClosure(relationalSchema, fds))).toBeTruthy();
     });
 
     it('should calculate correct set of functional dependencies (2)', () => {
-        const relationalScheme = new RelationalScheme(['a', 'b', 'c', 'd', 'e']);
+        const relationalSchema = new RelationalSchema(['a', 'b', 'c', 'd', 'e']);
         const fds = new FunctionalDependencySet([
             new FunctionalDependency(new Set(['a']), new Set(['b'])),
             new FunctionalDependency(new Set(['a', 'c']), new Set(['d'])),
@@ -33,11 +33,11 @@ describe('Closure of set of functional dependencies', () => {
             new FunctionalDependency(new Set(['c','d']), new Set(['e'])),
         ])
         
-        expect(Utils.closureOfSetOfFunctionalDependencies(relationalScheme, fds).equals(Utils.closureOfSetOfFunctionalDependenciesUsingAttributesClosure(relationalScheme, fds))).toBeTruthy();
+        expect(Utils.closureOfSetOfFunctionalDependencies(relationalSchema, fds).equals(Utils.closureOfSetOfFunctionalDependenciesUsingAttributesClosure(relationalSchema, fds))).toBeTruthy();
     });
 
     it('should calculate correct set of functional dependencies (3)', () => {
-        const relationalScheme = new RelationalScheme(['a', 'b', 'c', 'd', 'e']);
+        const relationalSchema = new RelationalSchema(['a', 'b', 'c', 'd', 'e']);
         const fds = new FunctionalDependencySet([
             new FunctionalDependency(new Set(['a']), new Set(['b'])),
             new FunctionalDependency(new Set(['a', 'c']), new Set(['d'])),
@@ -49,6 +49,6 @@ describe('Closure of set of functional dependencies', () => {
             new FunctionalDependency(new Set(['c','d']), new Set(['e'])),
         ])
 
-        expect(Utils.closureOfSetOfFunctionalDependencies(relationalScheme, fds).equals(Utils.closureOfSetOfFunctionalDependenciesUsingAttributesClosure(relationalScheme, fds))).toBeTruthy();
+        expect(Utils.closureOfSetOfFunctionalDependencies(relationalSchema, fds).equals(Utils.closureOfSetOfFunctionalDependenciesUsingAttributesClosure(relationalSchema, fds))).toBeTruthy();
     });
 })

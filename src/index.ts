@@ -1,4 +1,4 @@
 export { FunctionalDependency } from  './FunctionalDependency';
 export { FunctionalDependencySet } from  './FunctionalDependencySet';
-export { RelationalScheme } from  './RelationalScheme';
+export { RelationalSchema } from  './RelationalSchema';
 export { Utils } from  './Utils';

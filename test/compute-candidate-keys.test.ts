@@ -1,11 +1,11 @@
 import { FunctionalDependency } from "../src/FunctionalDependency";
 import { FunctionalDependencySet } from "../src/FunctionalDependencySet";
-import { RelationalScheme } from "../src/RelationalScheme"
+import { RelationalSchema } from "../src/RelationalSchema"
 import { Utils } from "../src/Utils";
 
 describe('Compute candidate keys', () => {
     it('should compute correct candidate keys (1)', () => {
-        const relationalScheme: RelationalScheme = new RelationalScheme(['a', 'b', 'c', 'd', 'e']);
+        const relationalSchema: RelationalSchema = new RelationalSchema(['a', 'b', 'c', 'd', 'e']);
         const fds = new FunctionalDependencySet([
             new FunctionalDependency(new Set(['a', 'b']), new Set('e')),
             new FunctionalDependency(new Set(['b']), new Set('c')),
@@ -18,13 +18,13 @@ describe('Compute candidate keys', () => {
             new Set(['a', 'd']),
         ];
 
-        const res = Utils.computeCandidateKeys(relationalScheme, fds);
+        const res = Utils.computeCandidateKeys(relationalSchema, fds);
 
         expect(Utils.areSetsOfAttributesEqual(res, expectedCandidateKeys)).toBeTruthy();
     })
 
     it('should compute correct candidate keys (2)', () => {
-        const relationalScheme: RelationalScheme = new RelationalScheme(['a', 'b', 'c', 'd']);
+        const relationalSchema: RelationalSchema = new RelationalSchema(['a', 'b', 'c', 'd']);
         const fds = new FunctionalDependencySet([
             new FunctionalDependency(new Set(['a', 'c']), new Set('d')),
             new FunctionalDependency(new Set(['d']), new Set('a')),
@@ -34,13 +34,13 @@ describe('Compute candidate keys', () => {
             new Set(['b', 'c', 'd']),
         ];
 
-        const res = Utils.computeCandidateKeys(relationalScheme, fds);
+        const res = Utils.computeCandidateKeys(relationalSchema, fds);
 
         expect(Utils.areSetsOfAttributesEqual(res, expectedCandidateKeys)).toBeTruthy();
     })
 
     it('should compute correct candidate keys (3)', () => {
-        const relationalScheme: RelationalScheme = new RelationalScheme(['a', 'b', 'c', 'd', 'e']);
+        const relationalSchema: RelationalSchema = new RelationalSchema(['a', 'b', 'c', 'd', 'e']);
         const fds = new FunctionalDependencySet([
             new FunctionalDependency(new Set(['a']), new Set('b')),
             new FunctionalDependency(new Set(['a', 'b']), new Set('c')),
@@ -51,13 +51,13 @@ describe('Compute candidate keys', () => {
             new Set(['d']),
         ];
 
-        const res = Utils.computeCandidateKeys(relationalScheme, fds);
+        const res = Utils.computeCandidateKeys(relationalSchema, fds);
 
         expect(Utils.areSetsOfAttributesEqual(res, expectedCandidateKeys)).toBeTruthy();
     })
 
     it('should compute correct candidate keys (4)', () => {
-        const relationalScheme: RelationalScheme = new RelationalScheme(['a', 'b', 'c', 'd', 'e', 'f']);
+        const relationalSchema: RelationalSchema = new RelationalSchema(['a', 'b', 'c', 'd', 'e', 'f']);
         const fds = new FunctionalDependencySet([
             new FunctionalDependency(new Set(['a', 'c']), new Set('b')),
             new FunctionalDependency(new Set(['c']), new Set(['d', 'e'])),
@@ -70,7 +70,7 @@ describe('Compute candidate keys', () => {
             new Set(['b', 'f']),
         ];
 
-        const res = Utils.computeCandidateKeys(relationalScheme, fds);
+        const res = Utils.computeCandidateKeys(relationalSchema, fds);
 
         expect(Utils.areSetsOfAttributesEqual(res, expectedCandidateKeys)).toBeTruthy();
     })

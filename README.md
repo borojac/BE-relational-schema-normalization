@@ -4,7 +4,7 @@ This library provides tools for working with **functional dependencies** and **r
 
 ## Installation
 ```bash
-npm  install  your-package-name
+npm  install  relational-schema-normalization
 ```
 ## Usage
 

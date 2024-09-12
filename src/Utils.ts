@@ -261,6 +261,23 @@ export class Utils {
     public static areSetsOfAttributesEqual(s1: Set<string>[], s2: Set<string>[]) {
         return s1.length === s2.length && s1.every(setOfAttrs1 => s2.some(setOfAttrs2 => Utils.areSetOfAttributesEqual(setOfAttrs1, setOfAttrs2)));
     }
+    
+    public static generateSubsets(set: Set<string>): Set<string>[] {
+        const subsets: Set<string>[] = [];
+
+        for (const element of set) {
+            const currentLength = subsets.length;
+            subsets.push(new Set([element]));
+            for (let i = 0; i < currentLength; i++) {
+                const newSubset = new Set(subsets[i]);
+                newSubset.add(element);
+                subsets.push(newSubset);
+            }
+        }
+
+        subsets.sort((a, b) => a.size - b.size);
+        return subsets;
+    }
 
     private static isSubsetOf(a: Set<string>, b: Set<string>, isStrictSubset: boolean = false) {
         const isSubset = [...a].every(el => b.has(el));
@@ -278,22 +295,6 @@ export class Utils {
         return new Set([...a].filter(el => !b.has(el)));
     }
 
-    private static generateSubsets(set: Set<string>): Set<string>[] {
-        const subsets: Set<string>[] = [];
-
-        for (const element of set) {
-            const currentLength = subsets.length;
-            subsets.push(new Set([element]));
-            for (let i = 0; i < currentLength; i++) {
-                const newSubset = new Set(subsets[i]);
-                newSubset.add(element);
-                subsets.push(newSubset);
-            }
-        }
-
-        subsets.sort((a, b) => a.size - b.size);
-        return subsets;
-    }
 
     private static extractDifferentDeterminants(fdsParam: FunctionalDependencySet): Set<string>[] {
         const result: Set<string>[] = [];

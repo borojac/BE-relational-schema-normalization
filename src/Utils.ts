@@ -66,12 +66,12 @@ export class Utils {
         return fPlus;
     }
 
-    public static closureOfSetOfAttributes(alpha: Set<string>, fds: FunctionalDependencySet): Set<string> {
+    public static closureOfSetOfAttributes(alpha: Set<string>, fdsParam: FunctionalDependencySet): Set<string> {
         let alphaPlus: Set<string> = new Set<string>(alpha);
         let aplhaPlusPrev: Set<string>;
         do {
             aplhaPlusPrev = new Set<string>(alphaPlus);
-            for (let fd of fds.fdArray) {
+            for (let fd of fdsParam.fdArray) {
                 if (Utils.isSubsetOf(fd.determinant, alphaPlus)) {
                     alphaPlus = Utils.union(alphaPlus, fd.dependent);
                 }
@@ -85,19 +85,17 @@ export class Utils {
 
         fm = Utils.decomposeFunctionalDependencies(fm);
 
-        for (let fd of new FunctionalDependencySet(fdsParam).fdArray) {
-            if (fd.dependent.size === 1 && fd.determinant.size > 1) {
+        for (let fd of new FunctionalDependencySet(fm).fdArray) {
+            if (fd.determinant.size > 1) {
                 fm = Utils.removeExtraneousAttributes(fd, fm);
             }
         }
 
         for (let fd of fm.fdArray) {
-            if (fd.dependent.size === 1) {
-                const dependent: string = fd.dependent.values().next().value;
-                const alphaPlus: Set<string> = Utils.closureOfSetOfAttributes(fd.determinant, fm.remove(fd));
-                if (alphaPlus.has(dependent)) {
-                    fm = fm.remove(fd);
-                }
+            const dependent: string = fd.dependent.values().next().value;
+            const alphaPlus: Set<string> = Utils.closureOfSetOfAttributes(fd.determinant, fm.remove(fd));
+            if (alphaPlus.has(dependent)) {
+                fm = fm.remove(fd);
             }
         }
 
@@ -164,9 +162,9 @@ export class Utils {
         relationalSchemas.sort((a, b) => a.attributes.size - b.attributes.size)
 
         const res = [];
-        for (let i = 0; i < relationalSchemas.length; i ++) {
+        for (let i = 0; i < relationalSchemas.length; i++) {
             let append = true;
-            for (let j = i + 1; j < relationalSchemas.length; j ++) {
+            for (let j = i + 1; j < relationalSchemas.length; j++) {
                 if (Utils.isSubsetOf(relationalSchemas[i].attributes, relationalSchemas[j].attributes)) {
                     append = false;
                     break;
@@ -184,17 +182,17 @@ export class Utils {
         if (this.isSchemaInBNCF(relationalSchemaParam, fdsParam)) {
             return [new RelationalSchema([...relationalSchemaParam.attributes])];
         }
-        
+
         const D = new Array<RelationalSchema>(relationalSchemaParam);
 
         const fdsClosure: FunctionalDependencySet = new FunctionalDependencySet(Utils.closureOfSetOfFunctionalDependenciesUsingAttributesClosure(relationalSchemaParam, fdsParam).fdArray.reverse());
 
-        for (let i = 0; i < D.length; i ++) {
+        for (let i = 0; i < D.length; i++) {
             const fds = Utils.extractFunctionalDependenciesForSchema(D[i], fdsParam);
             for (let fd of fds.fdArray) {
                 if (!Utils.isFunctionalDependencyBNCF(D[i], fd, fdsClosure)) {
                     D.splice(i, 1, new RelationalSchema([...fd.determinant, ...fd.dependent]), new RelationalSchema([...fd.determinant, ...Utils.differenceA_B(D[i].attributes, fd.dependent)]));
-                    i --;
+                    i--;
                     break;
                 }
             }
@@ -218,7 +216,7 @@ export class Utils {
 
     public static isFunctionalDependency3NF(relationalSchemaParam: RelationalSchema, fdParam: FunctionalDependency, fdsParam: FunctionalDependencySet, candidateKeys: Set<string>[]) {
         return this.isFunctionalDependencyBNCF(relationalSchemaParam, fdParam, fdsParam) ||
-                [...Utils.differenceA_B(fdParam.dependent, fdParam.determinant)].every(attr => [...candidateKeys].some(candidateKey => candidateKey.has(attr)));
+            [...Utils.differenceA_B(fdParam.dependent, fdParam.determinant)].every(attr => [...candidateKeys].some(candidateKey => candidateKey.has(attr)));
     }
 
     public static isFunctionalDependencyBNCF(relationalSchemaParam: RelationalSchema, fdParam: FunctionalDependency, fdsParam: FunctionalDependencySet): boolean {
@@ -261,7 +259,7 @@ export class Utils {
     public static areSetsOfAttributesEqual(s1: Set<string>[], s2: Set<string>[]) {
         return s1.length === s2.length && s1.every(setOfAttrs1 => s2.some(setOfAttrs2 => Utils.areSetOfAttributesEqual(setOfAttrs1, setOfAttrs2)));
     }
-    
+
     public static generateSubsets(set: Set<string>): Set<string>[] {
         const subsets: Set<string>[] = [];
 
@@ -294,7 +292,6 @@ export class Utils {
     private static differenceA_B(a: Set<string>, b: Set<string>) {
         return new Set([...a].filter(el => !b.has(el)));
     }
-
 
     private static extractDifferentDeterminants(fdsParam: FunctionalDependencySet): Set<string>[] {
         const result: Set<string>[] = [];
